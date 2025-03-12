@@ -36,10 +36,8 @@ public record LineItem(
         String shipInstructions,
         String shipMode,
         String comment)
-        implements TpchEntity
-{
-    public LineItem
-    {
+        implements TpchEntity {
+    public LineItem {
         requireNonNull(returnFlag, "returnFlag is null");
         requireNonNull(status, "status is null");
         requireNonNull(shipInstructions, "shipInstructions is null");
@@ -47,24 +45,41 @@ public record LineItem(
         requireNonNull(comment, "comment is null");
     }
 
-    public double extendedPrice()
-    {
+    public double extendedPrice() {
         return extendedPriceInCents / 100.0;
     }
 
-    public double discount()
-    {
+    public double discount() {
         return discountPercent / 100.0;
     }
 
-    public double tax()
-    {
+    public double tax() {
         return taxPercent / 100.0;
     }
 
     @Override
-    public String toLine()
-    {
+    public String toCsv() {
+        return String.join(",",
+                String.valueOf(orderKey),
+                String.valueOf(partKey),
+                String.valueOf(supplierKey),
+                String.valueOf(lineNumber),
+                String.valueOf(quantity),
+                formatMoney(extendedPriceInCents),
+                formatMoney(discountPercent),
+                formatMoney(taxPercent),
+                returnFlag,
+                status,
+                formatDate(shipDate),
+                formatDate(commitDate),
+                formatDate(receiptDate),
+                shipInstructions,
+                shipMode,
+                comment);
+    }
+
+    @Override
+    public String toLine() {
         return buildLine(
                 orderKey,
                 partKey,

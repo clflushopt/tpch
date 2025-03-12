@@ -22,17 +22,19 @@ public record Nation(
         String name,
         long regionKey,
         String comment)
-        implements TpchEntity
-{
-    public Nation
-    {
+        implements TpchEntity {
+    public Nation {
         requireNonNull(name, "name is null");
         requireNonNull(comment, "comment is null");
     }
 
     @Override
-    public String toLine()
-    {
+    public String toCsv() {
+        return String.join(",", String.valueOf(nationKey), name, String.valueOf(regionKey), comment);
+    }
+
+    @Override
+    public String toLine() {
         return buildLine(nationKey, name, regionKey, comment);
     }
 }

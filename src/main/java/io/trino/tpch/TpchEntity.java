@@ -14,9 +14,10 @@
 package io.trino.tpch;
 
 public sealed interface TpchEntity
-        permits Customer, LineItem, Nation, Order, Part, PartSupplier, Region, Supplier
-{
+        permits Customer, LineItem, Nation, Order, Part, PartSupplier, Region, Supplier {
     long rowNumber();
 
     String toLine();
+
+    String toCsv();
 }

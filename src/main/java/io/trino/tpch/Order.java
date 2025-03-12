@@ -29,23 +29,33 @@ public record Order(
         String clerk,
         int shipPriority,
         String comment)
-        implements TpchEntity
-{
-    public Order
-    {
+        implements TpchEntity {
+    public Order {
         requireNonNull(orderPriority, "orderPriority is null");
         requireNonNull(clerk, "clerk is null");
         requireNonNull(comment, "comment is null");
     }
 
-    public double totalPrice()
-    {
+    public double totalPrice() {
         return totalPriceInCents / 100.0;
     }
 
     @Override
-    public String toLine()
-    {
+    public String toCsv() {
+        return String.join(",",
+                String.valueOf(orderKey),
+                String.valueOf(customerKey),
+                String.valueOf(orderStatus),
+                formatMoney(totalPriceInCents),
+                String.valueOf(orderDate),
+                orderPriority,
+                clerk,
+                String.valueOf(shipPriority),
+                comment);
+    }
+
+    @Override
+    public String toLine() {
         return buildLine(
                 orderKey,
                 customerKey,

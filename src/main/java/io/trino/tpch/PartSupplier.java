@@ -24,21 +24,27 @@ public record PartSupplier(
         int availableQuantity,
         long supplyCostInCents,
         String comment)
-        implements TpchEntity
-{
-    public PartSupplier
-    {
+        implements TpchEntity {
+    public PartSupplier {
         requireNonNull(comment, "comment is null");
     }
 
-    public double getSupplyCost()
-    {
+    public double getSupplyCost() {
         return supplyCostInCents / 100.0;
     }
 
     @Override
-    public String toLine()
-    {
+    public String toCsv() {
+        return String.join(",",
+                String.valueOf(partKey),
+                String.valueOf(supplierKey),
+                String.valueOf(availableQuantity),
+                formatMoney(supplyCostInCents),
+                comment);
+    }
+
+    @Override
+    public String toLine() {
         return buildLine(partKey, supplierKey, availableQuantity, formatMoney(supplyCostInCents), comment);
     }
 }

@@ -27,10 +27,8 @@ public record Customer(
         long accountBalanceInCents,
         String marketSegment,
         String comment)
-        implements TpchEntity
-{
-    public Customer
-    {
+        implements TpchEntity {
+    public Customer {
         requireNonNull(name, "name is null");
         requireNonNull(address, "address is null");
         requireNonNull(phone, "phone is null");
@@ -38,14 +36,26 @@ public record Customer(
         requireNonNull(comment, "comment is null");
     }
 
-    public double accountBalance()
-    {
+    public double accountBalance() {
         return accountBalanceInCents / 100.0;
     }
 
     @Override
-    public String toLine()
-    {
-        return buildLine(customerKey, name, address, nationKey, phone, formatMoney(accountBalanceInCents), marketSegment, comment);
+    public String toCsv() {
+        return String.join(",",
+                String.valueOf(customerKey),
+                name,
+                address,
+                String.valueOf(nationKey),
+                phone,
+                formatMoney(accountBalanceInCents),
+                marketSegment,
+                comment);
+    }
+
+    @Override
+    public String toLine() {
+        return buildLine(customerKey, name, address, nationKey, phone, formatMoney(accountBalanceInCents),
+                marketSegment, comment);
     }
 }

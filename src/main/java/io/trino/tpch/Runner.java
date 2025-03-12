@@ -35,21 +35,13 @@ public class Runner {
         // l -- code (same as n and r),
         // O -- orders, L -- lineitem, P -- part,
         // S -- partsupp
+        Double scale = 0.001;
+        String outputDirectory = "fixtures/sf-0.001";
 
-        if (args.length < 2) {
-            System.out.println("Usage: <scale> <output directory>");
-            System.exit(1);
-        }
-
-        double scale = Double.parseDouble(args[0]);
-
-        // Check that the scale is within TPC-H limits.
-        if (scale < 0.01 || scale > 1000) {
+        if (scale < 0.001 || scale > 1000) {
             System.out.println("Scale must be between 0.01 and 1000");
             System.exit(1);
         }
-
-        String outputDirectory = args[1];
 
         // Check if the output directory exists.
         File directory = new File(outputDirectory);

@@ -155,35 +155,32 @@ public abstract class TpchTable<E extends TpchEntity> {
             FileWriter writer;
             try {
                 writer = new FileWriter(fileName, StandardCharsets.UTF_8);
+                // Write the header.
+                String[] header = columns.stream().map((TpchColumn<?> column) -> column.getColumnName())
+                        .toArray(String[]::new);
+
+                writer.write(String.join(",", header) + "\n");
+
                 for (var entity : generator) {
                     // Write the entity to the CSV file, entity is a row of objects and each
                     // object is indexed into its columns by the table's columns to properly
                     // cast the object to the correct type.
 
                     // Cast and build the row of objects.
-                    var line = entity.toLine();
+                    var line = entity.toCsv();
 
                     // Write the line to the CSV file.
                     // Write the CSV file.
                     try {
-
-                        // Write the header.
-                        String[] header = columns.stream().map((TpchColumn<?> column) -> column.getColumnName())
-                                .toArray(String[]::new);
-
-                        writer.write(String.join(",", header));
-
                         // Write the line.
-                        writer.write(line);
-
-                        // Close the writer.
-                        writer.close();
+                        writer.write(line + "\n");
                     } catch (IOException e) {
                         System.out.println("Error writing CSV file: " + e.getMessage());
                         System.exit(1);
                     }
 
                 }
+                writer.close();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

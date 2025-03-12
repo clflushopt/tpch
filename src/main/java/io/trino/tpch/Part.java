@@ -28,10 +28,8 @@ public record Part(
         String container,
         long retailPriceInCents,
         String comment)
-        implements TpchEntity
-{
-    public Part
-    {
+        implements TpchEntity {
+    public Part {
         requireNonNull(name, "name is null");
         requireNonNull(manufacturer, "manufacturer is null");
         requireNonNull(brand, "brand is null");
@@ -40,14 +38,26 @@ public record Part(
         requireNonNull(comment, "comment is null");
     }
 
-    public double retailPrice()
-    {
+    public double retailPrice() {
         return retailPriceInCents / 100.0;
     }
 
     @Override
-    public String toLine()
-    {
+    public String toCsv() {
+        return String.join(",",
+                String.valueOf(partKey),
+                name,
+                manufacturer,
+                brand,
+                type,
+                String.valueOf(size),
+                container,
+                formatMoney(retailPriceInCents),
+                comment);
+    }
+
+    @Override
+    public String toLine() {
         return buildLine(partKey,
                 name,
                 manufacturer,

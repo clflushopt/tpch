@@ -26,24 +26,32 @@ public record Supplier(
         String phone,
         long accountBalanceInCents,
         String comment)
-        implements TpchEntity
-{
-    public Supplier
-    {
+        implements TpchEntity {
+    public Supplier {
         requireNonNull(name, "name is null");
         requireNonNull(address, "address is null");
         requireNonNull(phone, "phone is null");
         requireNonNull(comment, "comment is null");
     }
 
-    public double getAccountBalance()
-    {
+    public double getAccountBalance() {
         return accountBalanceInCents / 100.0;
     }
 
     @Override
-    public String toLine()
-    {
+    public String toCsv() {
+        return String.join(",",
+                String.valueOf(supplierKey),
+                name,
+                address,
+                String.valueOf(nationKey),
+                phone,
+                formatMoney(accountBalanceInCents),
+                comment);
+    }
+
+    @Override
+    public String toLine() {
         return buildLine(
                 supplierKey,
                 name,
