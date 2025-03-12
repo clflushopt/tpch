@@ -35,8 +35,8 @@ public class Runner {
         // l -- code (same as n and r),
         // O -- orders, L -- lineitem, P -- part,
         // S -- partsupp
-        Double scale = 0.001;
-        String outputDirectory = "fixtures/sf-0.001";
+        Double scale = 0.01;
+        String outputDirectory = "fixtures/sf-0.01";
 
         if (scale < 0.001 || scale > 1000) {
             System.out.println("Scale must be between 0.01 and 1000");
