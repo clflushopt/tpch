@@ -47,7 +47,7 @@ public record Order(
                 String.valueOf(customerKey),
                 String.valueOf(orderStatus),
                 formatMoney(totalPriceInCents),
-                String.valueOf(orderDate),
+                formatDate(orderDate),
                 orderPriority,
                 clerk,
                 String.valueOf(shipPriority),
