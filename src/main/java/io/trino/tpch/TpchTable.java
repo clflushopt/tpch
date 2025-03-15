@@ -148,18 +148,12 @@ public abstract class TpchTable<E extends TpchEntity> {
         // Iterate and write a CSV file for each table in the target directory.
         for (TpchTable<?> table : tables) {
             String tableName = table.getTableName();
-            List<? extends TpchColumn<?>> columns = table.getColumns();
             String fileName = outputDirectory + "/" + tableName + ".tbl";
 
             var generator = table.createGenerator(scale, 1, 1);
             FileWriter writer;
             try {
                 writer = new FileWriter(fileName, StandardCharsets.UTF_8);
-                // Write the header.
-                String[] header = columns.stream().map((TpchColumn<?> column) -> column.getColumnName())
-                        .toArray(String[]::new);
-
-                writer.write(String.join(",", header) + "\n");
 
                 for (var entity : generator) {
                     // Write the entity to the CSV file, entity is a row of objects and each

@@ -58,7 +58,7 @@ public class Runner {
             System.exit(1);
         }
 
-        TpchTable.toCsvFile(outputDirectory, scale);
+        // TpchTable.toCsvFile(outputDirectory, scale);
         TpchTable.toTblFile(outputDirectory, scale);
     }
 
