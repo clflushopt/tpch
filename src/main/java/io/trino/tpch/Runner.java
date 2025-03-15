@@ -59,6 +59,7 @@ public class Runner {
         }
 
         TpchTable.toCsvFile(outputDirectory, scale);
+        TpchTable.toTblFile(outputDirectory, scale);
     }
 
 }

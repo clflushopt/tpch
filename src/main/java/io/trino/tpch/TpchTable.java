@@ -141,6 +141,53 @@ public abstract class TpchTable<E extends TpchEntity> {
         return tableName;
     }
 
+    public static void toTblFile(String outputDirectory, Double scale) {
+        // Create a table of generators (iterables) for each table.
+        List<TpchTable<?>> tables = TpchTable.getTables();
+
+        // Iterate and write a CSV file for each table in the target directory.
+        for (TpchTable<?> table : tables) {
+            String tableName = table.getTableName();
+            List<? extends TpchColumn<?>> columns = table.getColumns();
+            String fileName = outputDirectory + "/" + tableName + ".tbl";
+
+            var generator = table.createGenerator(scale, 1, 1);
+            FileWriter writer;
+            try {
+                writer = new FileWriter(fileName, StandardCharsets.UTF_8);
+                // Write the header.
+                String[] header = columns.stream().map((TpchColumn<?> column) -> column.getColumnName())
+                        .toArray(String[]::new);
+
+                writer.write(String.join(",", header) + "\n");
+
+                for (var entity : generator) {
+                    // Write the entity to the CSV file, entity is a row of objects and each
+                    // object is indexed into its columns by the table's columns to properly
+                    // cast the object to the correct type.
+
+                    // Cast and build the row of objects.
+                    var line = entity.toLine();
+
+                    // Write the line to the CSV file.
+                    // Write the CSV file.
+                    try {
+                        // Write the line.
+                        writer.write(line + "\n");
+                    } catch (IOException e) {
+                        System.out.println("Error writing Tbl file: " + e.getMessage());
+                        System.exit(1);
+                    }
+
+                }
+                writer.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void toCsvFile(String outputDirectory, Double scale) {
         // Create a table of generators (iterables) for each table.
         List<TpchTable<?>> tables = TpchTable.getTables();
